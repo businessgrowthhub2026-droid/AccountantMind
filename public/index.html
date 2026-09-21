@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accounting Tutor</title>
+  <title>AccountWise — Accounting Tutor</title>
 
   <style>
     * {
@@ -85,6 +85,11 @@
       cursor: wait;
     }
 
+    .clear-button {
+      background: #64748b;
+      margin-left: 8px;
+    }
+
     .status {
       margin-top: 12px;
       font-size: 14px;
@@ -125,7 +130,7 @@
 
   <div class="header">
     <div class="container">
-      <h1>📚 Accounting Tutor</h1>
+      <h1>📚 AccountWise</h1>
       <p>Learn accounting from your own notes with local AI.</p>
     </div>
   </div>
@@ -151,6 +156,7 @@ The accounting equation is Assets = Liabilities + Equity."
       <br><br>
 
       <button onclick="saveNotes()">Save Notes</button>
+      <button class="clear-button" onclick="clearTutor()">Clear</button>
 
       <div class="status" id="notesStatus">
         No notes loaded yet.
@@ -191,7 +197,8 @@ The accounting equation is Assets = Liabilities + Equity."
       const status = document.getElementById("notesStatus");
 
       if (!savedNotes) {
-        status.textContent = "Please add some accounting notes first.";
+        status.textContent =
+          "Please add some accounting notes first.";
         return;
       }
 
@@ -256,6 +263,19 @@ The accounting equation is Assets = Liabilities + Equity."
 
       button.disabled = false;
       button.textContent = "Ask Tutor";
+    }
+
+    function clearTutor() {
+      document.getElementById("notes").value = "";
+      document.getElementById("question").value = "";
+
+      savedNotes = "";
+
+      document.getElementById("notesStatus").textContent =
+        "No notes loaded yet.";
+
+      document.getElementById("answer").textContent =
+        "Your answer will appear here.";
     }
   </script>
 
