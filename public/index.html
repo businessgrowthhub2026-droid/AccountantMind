@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounting Tutor</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    .header {
+      background: #172033;
+      color: white;
+      padding: 24px;
+    }
+
+    .header h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 14px;
+      border: 1px solid #ccd3df;
+      border-radius: 10px;
+      font-size: 15px;
+      resize: vertical;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccd3df;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 9px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #526078;
+    }
+
+    .answer {
+      margin-top: 20px;
+      padding: 18px;
+      background: #f7f9fc;
+      border-left: 4px solid #2563eb;
+      border-radius: 8px;
+      min-height: 80px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8f1ff;
+      color: #2563eb;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .local {
+      margin-top: 20px;
+      text-align: center;
+      color: #526078;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="container">
+      <h1>📚 Accounting Tutor</h1>
+      <p>Learn accounting from your own notes with local AI.</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <span class="badge">YOUR NOTES</span>
+
+      <h2>1. Add your accounting notes</h2>
+
+      <textarea
+        id="notes"
+        placeholder="Paste your accounting notes here...
+
+Example:
+Assets are resources controlled by a business.
+Liabilities are obligations owed by a business.
+Equity represents the owner's interest in the business.
+The accounting equation is Assets = Liabilities + Equity."
+      ></textarea>
+
+      <br><br>
+
+      <button onclick="saveNotes()">Save Notes</button>
+
+      <div class="status" id="notesStatus">
+        No notes loaded yet.
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge">AI TUTOR</span>
+
+      <h2>2. Ask your accounting tutor</h2>
+
+      <input
+        id="question"
+        placeholder="Ask something about your notes..."
+      >
+
+      <button id="askButton" onclick="askTutor()">
+        Ask Tutor
+      </button>
+
+      <div class="answer" id="answer">
+        Your answer will appear here.
+      </div>
+    </div>
+
+    <div class="local">
+      🔒 AI inference runs locally on your computer with QVAC.
+    </div>
+
+  </div>
+
+  <script>
+    let savedNotes = "";
+
+    function saveNotes() {
+      savedNotes = document.getElementById("notes").value.trim();
+
+      const status = document.getElementById("notesStatus");
+
+      if (!savedNotes) {
+        status.textContent = "Please add some accounting notes first.";
+        return;
+      }
+
+      status.textContent =
+        "✓ Notes saved. Your local AI tutor is ready.";
+    }
+
+    async function askTutor() {
+      const question =
+        document.getElementById("question").value.trim();
+
+      const answer =
+        document.getElementById("answer");
+
+      const button =
+        document.getElementById("askButton");
+
+      if (!savedNotes) {
+        answer.textContent =
+          "Please save your accounting notes first.";
+        return;
+      }
+
+      if (!question) {
+        answer.textContent =
+          "Please enter a question.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Thinking...";
+
+      answer.textContent =
+        "🤖 QVAC is thinking...";
+
+      try {
+        const response = await fetch("/api/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            notes: savedNotes,
+            question: question
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Something went wrong."
+          );
+        }
+
+        answer.textContent = data.answer;
+
+      } catch (error) {
+        answer.textContent =
+          "Error: " + error.message;
+      }
+
+      button.disabled = false;
+      button.textContent = "Ask Tutor";
+    }
+  </script>
+
+</body>
+</html>
