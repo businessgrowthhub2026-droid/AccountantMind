@@ -1,90 +1,75 @@
-\# AccountWise — Notes → Accounting Tutor
-
-
+# AccountWise — Notes → Accounting Tutor
 
 AccountWise is a local AI accounting tutor that helps students understand their own accounting notes.
 
+The app uses the **QVAC SDK** to run AI inference directly on the user's computer. No cloud AI API key is required for the tutoring inference.
 
+## 🔗 Project Links
 
-The app uses the QVAC SDK to run AI inference locally on the user's computer.
+- **GitHub Repository:** https://github.com/businessgrowthhub2026-droid/AccountWise
+- **App URL:** http://localhost:3000
+- **QVAC:** https://qvac.tether.io/
 
+> The app currently runs locally because QVAC performs AI inference on the user's device.
 
+## ✨ What the App Does
 
-\## Features
+AccountWise turns a student's accounting notes into an interactive local AI tutor.
 
+A student can:
 
+- Paste their accounting notes
+- Save the notes inside the app
+- Ask questions about the notes
+- Receive an AI-generated accounting explanation
+- Clear the current notes and conversation
+- Use the tutor without a cloud AI API key
 
-\- Paste accounting notes into the app
+## 🤖 QVAC Integration
 
-\- Ask questions about your notes
+AccountWise uses:
 
-\- Receive explanations from a local AI tutor
+- `loadModel()` to load the local QVAC language model
+- `completion()` to generate the accounting tutor response
 
-\- No cloud AI API is required for inference
+The QVAC SDK version used in this project is:
 
-\- Simple browser-based interface
+`@qvac/sdk 0.19.1`
 
+The QVAC model is downloaded the first time the application runs and then used locally for inference.
 
+## 🔒 On-Device AI
 
-\## How It Works
+The accounting question and notes are processed by the local QVAC model running on the user's computer.
 
+The application does not require:
 
+- OpenAI API keys
+- Cloud AI APIs
+- A paid AI service
+- A usage-based AI subscription
 
-1\. The student pastes accounting notes.
+The AI inference happens locally through QVAC.
 
-2\. The student asks an accounting question.
+## 🛠️ Tech Stack
 
-3\. The notes and question are sent to the local Node.js server.
+- Node.js
+- JavaScript
+- HTML
+- CSS
+- QVAC SDK
+- Local LLM inference
 
-4\. QVAC runs the language model locally.
+## 📋 Requirements
 
-5\. The answer is returned to the browser.
+- Node.js
+- npm
+- A computer capable of running the QVAC model
 
-
-
-\## Tech Stack
-
-
-
-\- Node.js
-
-\- JavaScript
-
-\- HTML/CSS
-
-\- QVAC SDK
-
-\- Local LLM inference
-
-
-
-\## QVAC SDK
-
-
-
-This project uses:
-
-
-
-`@qvac/sdk` version `0.19.1`
-
-
-
-The QVAC model is loaded with `loadModel()` and generates answers using `completion()`.
-
-
-
-\## Installation
-
-
+## 🚀 Installation
 
 Clone the repository:
 
-
-
 ```bash
-
 git clone https://github.com/businessgrowthhub2026-droid/AccountWise.git
-
 cd AccountWise
-
