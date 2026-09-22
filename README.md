@@ -1,4 +1,4 @@
-# AccountWise — Local AI Accounting Tutor
+# AccountMind — Local AI Accounting Tutor
 
 [svg](https://github.com/businessgrowthhub2026-droid/AccountantMind#accountwise--local-ai-accounting-tutor)
 
